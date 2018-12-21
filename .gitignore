@@ -102,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# For Jesus' special laptop
+.DS_Store
+
+# Pycharm trash
+.idea/
