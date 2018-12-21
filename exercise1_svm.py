@@ -4,10 +4,13 @@
 
 
 import numpy as np
-import cvxopt
-import cvxopt.solvers
+#import cvxopt
+#import cvxopt.solvers
 from sklearn.svm import SVC
 import matplotlib.pyplot as plt
+import numpy as np
+
+
 
 
 if __name__ == "__main__":
@@ -79,6 +82,36 @@ if __name__ == "__main__":
         ####
 
 
+        clf = SVC(kernel='linear')
+        clf.fit(X_train, y_train)
+
+        precision = clf.score(X_test, y_test)
+
+        print('Precision ', precision);
+
+        '''
+        Code for plotting from https://scikit-learn.org/stable/auto_examples/svm/plot_custom_kernel.html#sphx-glr-auto-examples-svm-plot-custom-kernel-py
+        '''
+
+        h = .02
+        # Plot the decision boundary. For that, we will assign a color to each
+        # point in the mesh [x_min, x_max]x[y_min, y_max].
+        x_min, x_max = X_train[:, 0].min() - 1, X_train[:, 0].max() + 1
+        y_min, y_max = X_train[:, 1].min() - 1, X_train[:, 1].max() + 1
+        xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
+        Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
+
+        plt.figure()
+        # Put the result into a color plot
+        Z = Z.reshape(xx.shape)
+        plt.pcolormesh(xx, yy, Z, cmap=   )
+
+        # Plot also the training points
+        plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap=plt.cm.Paired, edgecolors='k')
+        plt.title('Linear ')
+        plt.axis('tight')
+        plt.show()
+
     def run_svm_dataset2():
         X1, y1, X2, y2 = generate_data_set2()
         X_train, y_train = split_train(X1, y1, X2, y2)
@@ -89,6 +122,9 @@ if __name__ == "__main__":
         # plot the graph with the support_vectors_
         # print on the console the number of correct predictions and the total of predictions
         ####
+
+
+
 
 
 
@@ -111,8 +147,8 @@ if __name__ == "__main__":
 
 # EXECUTE SVM with THIS DATASETS      
     run_svm_dataset1()   # data distribution 1
-    run_svm_dataset2()   # data distribution 2
-    run_svm_dataset3()   # data distribution 3
+    #run_svm_dataset2()   # data distribution 2
+    #run_svm_dataset3()   # data distribution 3
 
 #############################################################
 #############################################################
