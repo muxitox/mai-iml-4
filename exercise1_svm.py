@@ -68,8 +68,9 @@ if __name__ == "__main__":
         y_test = np.hstack((y1_test, y2_test))
         return X_test, y_test
 
-    def plot_hyperplane_and_support_vectors(clf, X_train, y_train):
+    def plot_hyperplane_and_support_vectors(title, clf, X_train, y_train):
 
+        plt.title(title)
         plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, s=30, cmap=plt.cm.Paired)
 
         # plot the decision function
@@ -103,6 +104,8 @@ if __name__ == "__main__":
         # plot the graph with the support_vectors_
         # print on the console the number of correct predictions and the total of predictions
         ####
+        print("Dataset 1")
+
         # Linear
         clf = SVC(kernel='linear')
         clf.fit(X_train, y_train)
@@ -112,7 +115,7 @@ if __name__ == "__main__":
         print("Number of instances to predict:", len(X_test))
         print("Number of instances correctly predicted:", accuracy_score(y_test, y_pred, normalize=False), "\n")
 
-        plot_hyperplane_and_support_vectors(clf, X_train, y_train)
+        plot_hyperplane_and_support_vectors("Dataset 1 - SVM Linear", clf, X_train, y_train)
 
         # RBF
         clf = SVC(kernel='rbf', gamma='scale')
@@ -123,7 +126,7 @@ if __name__ == "__main__":
         print("Number of instances to predict:", len(X_test))
         print("Number of instances correctly predicted:", accuracy_score(y_test, y_pred, normalize=False), "\n")
 
-        plot_hyperplane_and_support_vectors(clf, X_train, y_train)
+        plot_hyperplane_and_support_vectors("Dataset 1 - SVM RBF", clf, X_train, y_train)
 
         # Sigmoid
         clf = SVC(kernel='sigmoid', gamma='scale')
@@ -134,7 +137,7 @@ if __name__ == "__main__":
         print("Number of instances to predict:", len(X_test))
         print("Number of instances correctly predicted:", accuracy_score(y_test, y_pred, normalize=False), "\n")
 
-        plot_hyperplane_and_support_vectors(clf, X_train, y_train)
+        plot_hyperplane_and_support_vectors("Dataset 1 - SVM Sigmoid", clf, X_train, y_train)
 
 
 
@@ -149,6 +152,40 @@ if __name__ == "__main__":
         # plot the graph with the support_vectors_
         # print on the console the number of correct predictions and the total of predictions
         ####
+        print("Dataset 2")
+
+        # Linear
+        clf = SVC(kernel='linear')
+        clf.fit(X_train, y_train)
+
+        y_pred = clf.predict(X_test)
+        print("SVM Linear")
+        print("Number of instances to predict:", len(X_test))
+        print("Number of instances correctly predicted:", accuracy_score(y_test, y_pred, normalize=False), "\n")
+
+        plot_hyperplane_and_support_vectors("Dataset 2 - SVM Linear", clf, X_train, y_train)
+
+        # RBF
+        clf = SVC(kernel='rbf', gamma='scale')
+        clf.fit(X_train, y_train)
+
+        y_pred = clf.predict(X_test)
+        print("SVM RBF")
+        print("Number of instances to predict:", len(X_test))
+        print("Number of instances correctly predicted:", accuracy_score(y_test, y_pred, normalize=False), "\n")
+
+        plot_hyperplane_and_support_vectors("Dataset 2 - SVM RBF", clf, X_train, y_train)
+
+        # Sigmoid
+        clf = SVC(kernel='sigmoid', gamma='scale')
+        clf.fit(X_train, y_train)
+
+        y_pred = clf.predict(X_test)
+        print("SVM Sigmoid")
+        print("Number of instances to predict:", len(X_test))
+        print("Number of instances correctly predicted:", accuracy_score(y_test, y_pred, normalize=False), "\n")
+
+        plot_hyperplane_and_support_vectors("Dataset 2 - SVM Sigmoid", clf, X_train, y_train)
 
 
 
@@ -162,6 +199,40 @@ if __name__ == "__main__":
         # plot the graph with the support_vectors_
         # print on the console the number of correct predictions and the total of predictions
         ####
+        print("Dataset 3")
+
+        # Linear
+        clf = SVC(kernel='linear')
+        clf.fit(X_train, y_train)
+
+        y_pred = clf.predict(X_test)
+        print("SVM Linear")
+        print("Number of instances to predict:", len(X_test))
+        print("Number of instances correctly predicted:", accuracy_score(y_test, y_pred, normalize=False), "\n")
+
+        plot_hyperplane_and_support_vectors("Dataset 3 - SVM Linear", clf, X_train, y_train)
+
+        # RBF
+        clf = SVC(kernel='rbf', gamma='scale')
+        clf.fit(X_train, y_train)
+
+        y_pred = clf.predict(X_test)
+        print("SVM RBF")
+        print("Number of instances to predict:", len(X_test))
+        print("Number of instances correctly predicted:", accuracy_score(y_test, y_pred, normalize=False), "\n")
+
+        plot_hyperplane_and_support_vectors("Dataset 3 - SVM RBF", clf, X_train, y_train)
+
+        # Sigmoid
+        clf = SVC(kernel='sigmoid', gamma='scale')
+        clf.fit(X_train, y_train)
+
+        y_pred = clf.predict(X_test)
+        print("SVM Sigmoid")
+        print("Number of instances to predict:", len(X_test))
+        print("Number of instances correctly predicted:", accuracy_score(y_test, y_pred, normalize=False), "\n")
+
+        plot_hyperplane_and_support_vectors("Dataset 3 - SVM Sigmoid", clf, X_train, y_train)
 
 
 
