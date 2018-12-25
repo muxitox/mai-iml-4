@@ -385,7 +385,7 @@ if __name__ == "__main__":
                     acc = accuracy_score(y_test[i], y_pred)
                     time = end_time - start_time
 
-                    #print("{0}, linear, fold={1}, C={2}, acc={3}, time={4}".format(dataset[1], i, clf.C, acc, time))
+                    print("{0}, linear, fold={1}, C={2}, acc={3}, time={4}".format(dataset[1], i, clf.C, acc, time))
 
                     linear_avg_acc += acc
                     linear_avg_time += time
@@ -414,7 +414,7 @@ if __name__ == "__main__":
             best_avg_time = 0
             best_avg_c = 0
 
-    def run_svm_exercise2_svm_rbf():
+    def run_svm_exercise2_svm_rbf(datasets):
 
         best_avg_acc = 0
         best_avg_time = 0
@@ -459,7 +459,7 @@ if __name__ == "__main__":
                         acc = accuracy_score(y_test[i], y_pred)
                         time = end_time - start_time
 
-                        #print("{0}, rbf, fold={1}, C={2}, Gamma={5}, acc={3}, time={4}".format(dataset[1], i, clf.C, acc, time, clf.gamma))
+                        print("{0}, rbf, fold={1}, C={2}, Gamma={5}, acc={3}, time={4}".format(dataset[1], i, clf.C, acc, time, clf.gamma))
 
                         rbf_avg_acc += acc
                         rbf_avg_time += time
@@ -488,6 +488,119 @@ if __name__ == "__main__":
             best_avg_c = 0
             best_avg_gamma = 0
 
+
+    def run_svm_exercise2_svm_vedaldi(datasets):
+
+        best_avg_acc = 0
+        best_avg_time = 0
+        best_avg_c = 0
+
+        # For each dataset
+        for dataset in datasets:
+
+            X_train, y_train, X_test, y_test = load_data(dataset[0], dataset[1])
+
+            # All possible values of C
+            for c in np.arange(0.1, 1.1, 0.1):
+
+                clf = SVC(kernel='precomputed', C=c)
+
+                # Attributes
+                vedaldi_avg_acc = 0
+                vedaldi_avg_time = 0
+
+                # K-Fold Cross Validation
+                K = 10
+
+                for i in range(0, K):
+                    # Start timer
+                    start_time = timer()
+
+                    # Precompute train kernel
+                    kernel_train_matrix = np.zeros((X_train[i].shape[0], X_train[i].shape[0]))
+
+                    for x in range(0, kernel_train_matrix.shape[0]):
+
+                        vector_x = X_train[i].iloc[x]
+
+                        for y in range(0, kernel_train_matrix.shape[0]):
+
+                            sum = 0
+
+                            vector_y = X_train[i].iloc[y]
+
+                            denominador = np.sum(vector_x) + np.sum(vector_y)
+
+                            if (denominador > 0):
+                                nominador = 2 * np.dot(vector_x, vector_y)
+                                sum += nominador / denominador
+
+                            kernel_train_matrix[x][y] = sum
+                    # End of precomputing training kernel
+
+                    # Precompute test kernel
+                    kernel_test_matrix = np.zeros((X_test[i].shape[0], X_train[i].shape[0]))
+
+                    for x in range(0, kernel_test_matrix.shape[0]):
+
+                        vector_x = X_test[i].iloc[x]
+
+                        for y in range(0, kernel_test_matrix.shape[1]):
+
+                            sum = 0
+
+                            vector_y = X_train[i].iloc[y]
+
+                            denominador = np.sum(vector_x) + np.sum(vector_y)
+
+                            if (denominador > 0):
+                                nominador = 2 * np.dot(vector_x, vector_y)
+                                sum += nominador / denominador
+
+                            kernel_test_matrix[x][y] = sum
+                    # End of precomputing testing kernel
+
+                    # Training
+                    clf.fit(kernel_train_matrix, y_train[i])
+
+                    # Stop timer
+                    end_time = timer()
+
+                    # Predicting
+                    y_pred = clf.predict(kernel_test_matrix)
+
+                    # Saving the time and accuracy
+                    acc = accuracy_score(y_test[i], y_pred)
+                    time = end_time - start_time
+
+                    print("{0}, Vedaldi, fold={1}, C={2}, acc={3}, time={4}".format(dataset[1], i, clf.C, acc, time))
+
+                    vedaldi_avg_acc += acc
+                    vedaldi_avg_time += time
+
+                # Average values
+                vedaldi_avg_acc /= K
+                vedaldi_avg_time /= K
+
+                # Update winner
+                if (vedaldi_avg_acc > best_avg_acc):
+
+                    best_avg_acc = vedaldi_avg_acc
+                    best_avg_time = vedaldi_avg_time
+                    best_avg_c = clf.C
+
+                # Print values
+                # print("{0} Average, linear, C={1}, acc={2}, time={3}".format(dataset[1], clf.C, linear_avg_acc, linear_avg_time))
+
+            # Best for this dataset
+            print("Best hyperparameters: {0}, Vedaldi and Zisserman, C={1}, acc={2}, time={3}".format(dataset[1], best_avg_c, best_avg_acc, best_avg_time))
+
+            # Clean values
+            best_avg_acc = 0
+            best_avg_time = 0
+            best_avg_c = 0
+
+
 #############################################################
 #############################################################
 #############################################################
@@ -509,11 +622,12 @@ if __name__ == "__main__":
 # EXECUTE SVM with TWO CBR DATASETS - Exercise 2
 
     datasets = [
-        ['./datasetsCBR/credit-a', 'credit-a'],
+        #['./datasetsCBR/credit-a', 'credit-a'],
         ['./datasetsCBR/adult', 'adult']
     ]
-    run_svm_exercise2_svm_linear(datasets)   # SVM Linear
-    #run_svm_exercise2_svm_rbf()   # SVM RBF
+    #run_svm_exercise2_svm_linear(datasets)          # SVM Linear
+    #run_svm_exercise2_svm_rbf(datasets)             # SVM RBF
+    run_svm_exercise2_svm_vedaldi(datasets)         # SVM Linear splines
 
 #############################################################
 #############################################################
