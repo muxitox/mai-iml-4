@@ -4,8 +4,8 @@
 
 
 import numpy as np
-import cvxopt
-import cvxopt.solvers
+#import cvxopt
+#import cvxopt.solvers
 from sklearn.svm import SVC
 import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
@@ -15,6 +15,8 @@ import pandas as pd
 from preprocessing import preprocess
 from timeit import default_timer as timer
 from sklearn.preprocessing import LabelEncoder
+from scipy.stats import ttest_ind
+
 
 
 if __name__ == "__main__":
@@ -601,6 +603,33 @@ if __name__ == "__main__":
             best_avg_c = 0
 
 
+    def doStatisticalComparison():
+        Linear = [0.8605470075354085, 0.8801134333379176, 0.850718462823726, 0.8517507002801121]
+        RBF = [0.8709885142054372, 0.9088241937017386, 0.8561199169093905, 0.8396778711484594]
+        Vedaldi = [0.8548327475509494, 0.8736361794494065, 0.8398325769378401, 0.8342121848739495]
+
+        T1, p1 = ttest_ind(RBF, Linear)
+        # interpret
+        alpha = 0.05
+        if p1 > alpha:
+            print('RBF, Linear - Data is not statistically different')
+        else:
+            print('RBF, Linear - Data is statistically different')
+        print(p1)
+        T2, p2 = ttest_ind(RBF, Vedaldi)
+        if p2 > alpha:
+            print('RBF, Vedaldi - Data is not statistically different')
+        else:
+            print('RBF, Vedaldi - Data is statistically different')
+        print(p2)
+        T3, p3 = ttest_ind(Linear, Vedaldi)
+        if p3 > alpha:
+            print('Linear, Vedaldi - Relief is not statistically different')
+        else:
+            print('Linear, Vedaldi - Relief is statistically different')
+        print(p3)
+
+
 #############################################################
 #############################################################
 #############################################################
@@ -622,12 +651,13 @@ if __name__ == "__main__":
 # EXECUTE SVM with TWO CBR DATASETS - Exercise 2
 
     datasets = [
-        #['./datasetsCBR/credit-a', 'credit-a'],
-        ['./datasetsCBR/adult', 'adult']
+        ['./datasetsCBR/credit-a', 'credit-a'],
+        #['./datasetsCBR/bal', 'bal']
     ]
     #run_svm_exercise2_svm_linear(datasets)          # SVM Linear
     #run_svm_exercise2_svm_rbf(datasets)             # SVM RBF
-    run_svm_exercise2_svm_vedaldi(datasets)         # SVM Linear splines
+    #run_svm_exercise2_svm_vedaldi(datasets)         # SVM Linear splines
+    doStatisticalComparison()
 
 #############################################################
 #############################################################
