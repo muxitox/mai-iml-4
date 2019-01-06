@@ -624,9 +624,9 @@ if __name__ == "__main__":
         print(p2)
         T3, p3 = ttest_ind(Linear, Vedaldi)
         if p3 > alpha:
-            print('Linear, Vedaldi - Relief is not statistically different')
+            print('Linear, Vedaldi - Data is not statistically different')
         else:
-            print('Linear, Vedaldi - Relief is statistically different')
+            print('Linear, Vedaldi - Data is statistically different')
         print(p3)
 
 
@@ -635,9 +635,9 @@ if __name__ == "__main__":
 #############################################################
 
 # EXECUTE SVM with THIS DATASETS - Exercise 1
-    #run_svm_dataset1()   # data distribution 1
-    #run_svm_dataset2()   # data distribution 2
-    #run_svm_dataset3()   # data distribution 3
+    run_svm_dataset1()   # data distribution 1
+    run_svm_dataset2()   # data distribution 2
+    run_svm_dataset3()   # data distribution 3
 
 #############################################################
 #############################################################
@@ -652,11 +652,11 @@ if __name__ == "__main__":
 
     datasets = [
         ['./datasetsCBR/credit-a', 'credit-a'],
-        #['./datasetsCBR/bal', 'bal']
+        ['./datasetsCBR/bal', 'bal']
     ]
-    #run_svm_exercise2_svm_linear(datasets)          # SVM Linear
-    #run_svm_exercise2_svm_rbf(datasets)             # SVM RBF
-    #run_svm_exercise2_svm_vedaldi(datasets)         # SVM Linear splines
+    run_svm_exercise2_svm_linear(datasets)          # SVM Linear
+    run_svm_exercise2_svm_rbf(datasets)             # SVM RBF
+    run_svm_exercise2_svm_vedaldi(datasets)         # SVM Linear splines
     doStatisticalComparison()
 
 #############################################################
